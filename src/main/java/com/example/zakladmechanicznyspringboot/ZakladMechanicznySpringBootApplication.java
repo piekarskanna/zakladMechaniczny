@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SzakladMechanicznySpringBootApplication {
+public class ZakladMechanicznySpringBootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SzakladMechanicznySpringBootApplication.class, args);
+        SpringApplication.run(ZakladMechanicznySpringBootApplication.class, args);
     }
 
 }
