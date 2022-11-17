@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<h1>Logowanie</h1>
-<form action="register" method="post">
+<h1>Tworzenie nowego konta</h1>
+<form action="rejestracja" method="post">
     <label for="firstname">First name :</label> <br/>
     <input type="text" name="firstName"/> <br/>
 
@@ -20,6 +20,15 @@
     <label for="password">Password :</label> <br/>
     <input type="password" name="password"/> <br/>
 
+    <label for="who">Kim jestes?</label> <br/>
+
+    <select name="logujeSieJako">
+        <option value="wlasciciel">Wlasciciel</option>
+        <option value="kierownik">Kierownik</option>
+        <option value="Pracownik">Pracownik</option>
+    </select>
+
+    <br/>
     <br/>
     <button type="submit">Potwierdz</button>
 </form>
