@@ -2,6 +2,7 @@ package com.example.zakladmechanicznyspringboot.controller;
 
 import com.example.zakladmechanicznyspringboot.model.User;
 import com.example.zakladmechanicznyspringboot.model.UserLogging;
+import com.example.zakladmechanicznyspringboot.model.UserRegistering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -18,8 +19,8 @@ public class UserRepository {
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
 
 
-    public boolean addUserToDb(User user){
-        jdbcTemplate.update("INSERT INTO User(firstName, lastName, email, password) values(?, ?, ?, ?)",
+    public boolean addUserToDb(UserRegistering user){
+        jdbcTemplate.update("INSERT INTO " + user.getType() +"(firstName, lastName, email, password) values(?, ?, ?, ?)",
                 user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
         System.out.println("Dodano do bazy");
         //jezeli wszytko sie powiedzie zwracamy true,
