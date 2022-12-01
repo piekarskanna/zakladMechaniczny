@@ -1,0 +1,11 @@
+KOLEJNE PRZEKIEROWANIA:
+
+2. stronaPowitalna.html
+
+3. Widok tego, kto się zalogował:
+
+a) szef (widokHomeWlasciciel) - na stronie założenie konta kierownikowi, tam - rejestracja.html
+
+b) kierownik (widokHomeKierownik) - na stronie założenie konta pracownikowi 
+
+c) pracownik (widokHomePracownik) - na stronie póki co nic xD

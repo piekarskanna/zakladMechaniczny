@@ -8,8 +8,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.DriverManager;
-
 
 @Repository
 public class UserRepository {
@@ -41,7 +39,6 @@ public class UserRepository {
 //            return null;
 //        }
 //    }
-
 
     public User loginUser(UserLogging userLogging){
 
