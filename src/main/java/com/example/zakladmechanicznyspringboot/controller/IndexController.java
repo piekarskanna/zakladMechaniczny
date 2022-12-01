@@ -71,6 +71,8 @@ public class IndexController {
         System.out.println(userRegistering);
         userRepository.addUserToDb(userRegistering);
 //        userRepository.addUserToDb(user);
+        model.addAttribute("firstname", userRegistering.getFirstName());
+        model.addAttribute("lastname", userRegistering.getLastName());
         return "welcome";
 
     }
