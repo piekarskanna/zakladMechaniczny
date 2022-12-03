@@ -5,20 +5,6 @@ html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-select {
-  background-color: white;
-  opacity: 0.8;
-  border: none;
-  color: black;
-  padding: 5px 20px;
-  text-align: left;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
 button {
   background-color: white;
   opacity: 0.8;
@@ -52,29 +38,30 @@ button:hover {
 
 .bg-image {
   height: 50%;
-
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .img1 {
-  background-image: url("zdjecie2.jpg");
+  background-image: url("images/zdjecie2.jpg");
+  width: 400px;
+  height: 400px;
 }
 .img2 {
-  background-image: url("zdjecie3.jpg");
+  background-image: url("images/zdjecie3.jpg");
 }
 .img3 {
-  background-image: url("zdjecie1.jpg");
+  background-image: url("images/zdjecie1.jpg");
 }
 .img4 {
-  background-image: url("zdjecie4.jpg");
+  background-image: url("images/zdjecie4.jpg");
 }
 .img5 {
-  background-image: url("zdjecie5.jpg");
+  background-image: url("images/zdjecie5.jpg");
 }
 .img6 {
-  background-image: url("zdjecie.jpg");
+  background-image: url("images/zdjecie.jpg");
 }
 
 .bg-text {
@@ -82,7 +69,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 10px;
   border: 10px solid #f1f1f1;
   position: fixed;
   top: 50%;
@@ -92,18 +79,4 @@ button:hover {
   width: 300px;
   padding: 20px;
   text-align: center;
-}
-
-input {
-  background-color: white;
-  opacity: 0.8;
-  border: none;
-  color: black;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
 }

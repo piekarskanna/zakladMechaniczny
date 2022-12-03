@@ -1,0 +1,18 @@
+W celu zalogowania się jako szef wprowadź
+Email: adam@agh.pl Hasło: tonik
+Jeśli wprowadzone dane są niepoprawne, strona wyczyści wpisane dane i wróci do podstawowego widoku
+
+Jeśli wprowadzone dane są poprawne, nastąpi przekierowanie do widoku dla właściciela. Z niego możliwe jest założenie
+konta kierownikowi lub pracownikowi. Brak wprowadzenia danych nie skutkuje błędem. Po kliknięciu "Potwierdź" ukaże się
+kolejna strona z napisem "Zarejestrowano usera o nazwie [imię] [nazwisko].
+
+
+W celu zalogowania się jako kierownik wprowadź
+Email: mateusz@agh.pl Hasło: mateusz
+Jeśli wprowadzone dane są niepoprawne, strona wyczyści wpisane dane i wróci do podstawowego widoku
+Jeśli wprowadzone dane są poprawne, ukaże się napis "Witamy kierownika"
+
+W celu zalogowania się jako pracownik wprowadź
+Email: michal@agh.pl Hasło: michal
+eśli wprowadzone dane są niepoprawne, strona wyczyści wpisane dane i wróci do podstawowego widoku
+Jeśli wprowadzone dane są poprawne, ukaże się napis "Witamy kierownika"
