@@ -3,12 +3,14 @@ package com.example.zakladmechanicznyspringboot.controller;
 import com.example.zakladmechanicznyspringboot.model.User;
 import com.example.zakladmechanicznyspringboot.model.UserLogging;
 import com.example.zakladmechanicznyspringboot.model.UserRegistering;
+import com.example.zakladmechanicznyspringboot.model.Zaklad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Objects;
 
@@ -45,7 +47,7 @@ public class IndexController {
             if (Objects.equals(userLogging.getType(), "Wlasciciel")) {
                 System.out.println(zalogowany);
                 //tutaj bedziemu tworzyc poszczegolne pbiekty
-                return "widokHomeWlasciciel";
+                return "wyborWlasciciel";
 
             } else if (Objects.equals(userLogging.getType(), "Kierownik")) {
                 System.out.println("Loguje sie Kierownik");
@@ -64,18 +66,31 @@ public class IndexController {
         return "welcome";
     }
 
-    //włascicel rejestruje usera do bazy
-    //poki co dodajemy do ogólnej tabeli User, trzeba bedzie to zmienic
+    @PostMapping("/wyborWlasciciel")
+    public String choseAccountType(@RequestBody String wybor) {
+        return switch (wybor) {
+            case "upvote=wybor1" -> "stworzZaklad";
+            case "upvote=wybor2" -> "dodajPracownika";
+            case "upvote=wybor3" -> "devInProgress";
+            case "upvote=wybor4" -> "devInProgress";
+            default -> "";
+        };
+    }
+
+    @PostMapping("/tworzenieZakladu")
+    public String tworzenieZakladu(@ModelAttribute Zaklad zaklad, Model model) {
+        userRepository.createWorkshop(zaklad);
+        model.addAttribute("firstname", zaklad.getName());
+        return "welcome";
+    }
+
     @PostMapping("/rejestracja")
-    public String rejestracja(@ModelAttribute UserRegistering userRegistering, Model model){
+    public String rejestracja(@ModelAttribute UserRegistering userRegistering, Model model, Zaklad zaklad) {
         System.out.println(userRegistering);
-        userRepository.addUserToDb(userRegistering);
-//        userRepository.addUserToDb(user);
+        userRepository.addUserToDb(userRegistering, zaklad);
         model.addAttribute("firstname", userRegistering.getFirstName());
         model.addAttribute("lastname", userRegistering.getLastName());
         return "welcome";
-
     }
-
 
 }
