@@ -33,7 +33,6 @@ public class IndexController {
     //    action zalogowany jest w htmlu stronaPowitalna
     @PostMapping("/zalogowany")
     public String logowanie(@ModelAttribute UserLogging userLogging, Model model) {
-        //tutaj trzeba będzie zaimplenetować logowanie do systemu
 
         if (Objects.isNull(userRepository.loginUser(userLogging))) {
             System.out.println("mamy nula");

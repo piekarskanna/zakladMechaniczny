@@ -29,14 +29,14 @@ public class UserRepository {
 //    }
 
     public void createWorkshop(Zaklad zaklad) {
-        jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "id int NOT NULL AUTO_INCREMENT,\n" +
-                "  role varchar(45) NOT NULL,\n" +
-                "  firstName varchar(45) NOT NULL,\n" +
-                "  lastName varchar(45) NOT NULL,\n" +
-                "  email varchar(45) NOT NULL,\n" +
-                "  password varchar(45) NOT NULL,\n" +
-                "  gender varchar(45) DEFAULT NULL,\n" +
-                "  PRIMARY KEY (id)");
+        jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "(id int NOT NULL AUTO_INCREMENT," +
+                "  role varchar(45) NOT NULL," +
+                "  firstName varchar(45) NOT NULL," +
+                "  lastName varchar(45) NOT NULL," +
+                "  email varchar(45) NOT NULL," +
+                "  password varchar(45) NOT NULL," +
+                "  gender varchar(45) DEFAULT NULL," +
+                "  PRIMARY KEY (id))");
     }
 
     public void addUserToDb(UserRegistering user, Zaklad zaklad) {
@@ -44,6 +44,7 @@ public class UserRepository {
                 user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
         System.out.println("Dodano do bazy");
     }
+
     //wersja funkcji ktora zwraca usera
     //zwracamy Usera
 //    public User loginUser(UserLogging userLogging){
