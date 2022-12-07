@@ -1,4 +1,4 @@
 package com.example.zakladmechanicznyspringboot.model;
 
-public class Wlasciciel extends User{
+public class Wlasciciel extends User {
 }

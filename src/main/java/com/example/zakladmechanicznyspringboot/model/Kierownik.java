@@ -1,4 +1,4 @@
 package com.example.zakladmechanicznyspringboot.model;
 
-public class Kierownik extends User{
+public class Kierownik extends User {
 }
