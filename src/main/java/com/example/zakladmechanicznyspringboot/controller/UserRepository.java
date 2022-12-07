@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Objects;
-
 
 @Repository
 public class UserRepository {
@@ -42,20 +40,20 @@ public class UserRepository {
     }
 
     public void addUserToDb(UserRegistering user, Zaklad zaklad) {
-        //sprawdzamy, czy konto jest tworzone dla kierownika
-        if (Objects.equals(user.getRole(), "Kierownik")) {
-            //jeśli tak, to sprawdzamy, czy jest już w bazie
-
-            if (returnKierownik(user, zaklad) != null) {
-                //jeśli zwróciło kierownika to znaczy, że kierownik w tabeli już jest, więc nie dodajemy kolejnego
-                System.out.println("W tej tabeli jest już kierownik");
-            }
-        }
-        else {
+//        //sprawdzamy, czy konto jest tworzone dla kierownika
+//        if (Objects.equals(user.getRole(), "Kierownik")) {
+//            //jeśli tak, to sprawdzamy, czy jest już w bazie
+//
+//            if (returnKierownik(user, zaklad) != null) {
+//                //jeśli zwróciło kierownika to znaczy, że kierownik w tabeli już jest, więc nie dodajemy kolejnego
+//                System.out.println("W tej tabeli jest już kierownik");
+//            }
+//        }
+//        else {
             jdbcTemplate.update("INSERT INTO " + zaklad.getName() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
                     user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
             System.out.println("Dodano do bazy");
-        }
+//        }
     }
 
     //wersja funkcji ktora zwraca usera
