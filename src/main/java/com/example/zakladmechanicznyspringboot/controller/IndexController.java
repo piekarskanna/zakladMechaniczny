@@ -7,7 +7,10 @@ import com.example.zakladmechanicznyspringboot.model.Zaklad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Objects;
 
@@ -83,18 +86,17 @@ public class IndexController {
     @PostMapping("/rejestracja")
     public String rejestracja(@ModelAttribute UserRegistering userRegistering, Model model, Zaklad zaklad) {
         System.out.println(userRegistering);
+        if (userRegistering.getRole() == null){
+            System.out.println("Rejestrujemy pracownika ktory nie ma typu, ustawimy domyslny typ czyli pracownik");
+            userRegistering.setRole("Pracownik");
+        }
         userRepository.addUserToDb(userRegistering, zaklad);
         model.addAttribute("firstname", userRegistering.getFirstName());
         model.addAttribute("lastname", userRegistering.getLastName());
         return "welcome";
     }
-    @GetMapping("/id")
-    public User getById(@PathVariable("id") int id) {
 
-        return UserRepository.getByIdMan(id);
-    }
-    @DeleteMapping("/id")
-    public void deleteMan(@PathVariable("id") int id){
 
-    }
+
+
 }
