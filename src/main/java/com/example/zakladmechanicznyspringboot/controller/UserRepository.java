@@ -1,9 +1,6 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
-import com.example.zakladmechanicznyspringboot.model.User;
-import com.example.zakladmechanicznyspringboot.model.UserLogging;
-import com.example.zakladmechanicznyspringboot.model.UserRegistering;
-import com.example.zakladmechanicznyspringboot.model.Zaklad;
+import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
 
     @Autowired
+    static
     JdbcTemplate jdbcTemplate;
 
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
@@ -107,7 +105,23 @@ public class UserRepository {
         //zwracamy false jesli takiego usera nie ma
         return false;
     }
+    public static Kierownik getByIdMan(int id) {
+        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
+                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
 
+    }
+    public boolean deleteMan(int id){
+
+        User user = UserRepository.getByIdMan(id);
+        if (user != null){
+            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
+            System.out.println("Manager deleted successfully");
+            return true;
+        }else {
+            System.out.println("There is no such Manager");
+            return false;
+        }
+    }
 
 
 

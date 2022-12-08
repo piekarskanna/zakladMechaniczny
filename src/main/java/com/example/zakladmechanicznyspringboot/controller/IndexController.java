@@ -1,16 +1,10 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
-import com.example.zakladmechanicznyspringboot.model.User;
-import com.example.zakladmechanicznyspringboot.model.UserLogging;
-import com.example.zakladmechanicznyspringboot.model.UserRegistering;
-import com.example.zakladmechanicznyspringboot.model.Zaklad;
+import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -96,7 +90,15 @@ public class IndexController {
         return "welcome";
     }
 
+    @GetMapping("/id")
+    public Kierownik getById(@PathVariable("id") int id) {
 
+        return UserRepository.getByIdMan(id);
+    }
+    @DeleteMapping("/id")
+    public void deleteMan(@PathVariable("id") int id){
+
+    }
 
 
 }
