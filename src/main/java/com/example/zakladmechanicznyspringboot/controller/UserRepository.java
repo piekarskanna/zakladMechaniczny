@@ -84,7 +84,6 @@ public class UserRepository {
     public User loginUser(UserLogging userLogging) {
 
         try {
-
             return jdbcTemplate.queryForObject("SELECT id, firstName, lastName, email, password  FROM " + userLogging.getType() + " WHERE " +
                     "email = ? AND password = ?", BeanPropertyRowMapper.newInstance(User.class), userLogging.getEmail(), userLogging.getPassword());
         } catch (DataAccessException e) {
