@@ -94,4 +94,21 @@ public class UserRepository {
         }
     }
 
+    public boolean checkIfEmailExist(UserRegistering userRegistering){
+        try {
+            jdbcTemplate.execute("SELECT * FROM " + userRegistering.getRole() + " WHERE email = " + "'" +userRegistering.getEmail() + "'");
+
+            //zwracamy true gdy user o podanym mailu istenije
+            return true;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
+        //zwracamy false jesli takiego usera nie ma
+        return false;
+    }
+
+
+
+
 }
