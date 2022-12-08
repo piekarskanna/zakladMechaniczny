@@ -84,7 +84,6 @@ public class UserRepository {
     public User loginUser(UserLogging userLogging) {
 
         try {
-
             return jdbcTemplate.queryForObject("SELECT id, firstName, lastName, email, password  FROM " + userLogging.getType() + " WHERE " +
                     "email = ? AND password = ?", BeanPropertyRowMapper.newInstance(User.class), userLogging.getEmail(), userLogging.getPassword());
         } catch (DataAccessException e) {
@@ -93,5 +92,22 @@ public class UserRepository {
             return null;
         }
     }
+
+    public boolean checkIfEmailExist(UserRegistering userRegistering){
+        try {
+            jdbcTemplate.execute("SELECT * FROM " + userRegistering.getRole() + " WHERE email = " + "'" +userRegistering.getEmail() + "'");
+
+            //zwracamy true gdy user o podanym mailu istenije
+            return true;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
+        //zwracamy false jesli takiego usera nie ma
+        return false;
+    }
+
+
+
 
 }
