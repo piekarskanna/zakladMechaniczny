@@ -86,10 +86,17 @@ public class IndexController {
     @PostMapping("/rejestracja")
     public String rejestracja(@ModelAttribute UserRegistering userRegistering, Model model, Zaklad zaklad) {
         System.out.println(userRegistering);
+        if (userRegistering.getRole() == null){
+            System.out.println("Rejestrujemy pracownika ktory nie ma typu, ustawimy domyslny typ czyli pracownik");
+            userRegistering.setRole("Pracownik");
+        }
         userRepository.addUserToDb(userRegistering, zaklad);
         model.addAttribute("firstname", userRegistering.getFirstName());
         model.addAttribute("lastname", userRegistering.getLastName());
         return "welcome";
     }
+
+
+
 
 }
