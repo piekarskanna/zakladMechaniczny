@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Dodawanie pojazdu</title>
+    <link th:href="@{css/stronaPowitalnaStyle.css}" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<div class="bg-image img1"></div>
+<div class="bg-image img2"></div>
+<div class="bg-image img3"></div>
+<div class="bg-image img4"></div>
+<div class="bg-image img5"></div>
+<div class="bg-image img6"></div>
+
+<h2>Dodaj pojazd do bazy danych</h2>
+<br/>
+
+
+<form action="rejestracja" method="post">
+    <div class="bg-text">
+        <label for="mark">Marka :</label> <br/>
+        <input type="text" name="mark" required/> <br/>
+
+        <label for="description">Opis :</label> <br/>
+        <input type="text" name="description" required/> <br/>
+
+        <label for="cost">Kosz naprawy :</label> <br/>
+        <input type="email" name="cost" required/> <br/>
+
+        <br/>
+        <br/>
+
+        <label for="name">Do jakiego zakładu chcesz dodać tę osobę? :</label> <br/>
+        <input type="text" name="name" required/> <br/>
+        <br/>
+        <br/>
+        <button type="submit">Potwierdź</button>
+    </div>
+</form>
+
+</body>
+</html>

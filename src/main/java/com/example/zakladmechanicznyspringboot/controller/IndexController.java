@@ -51,7 +51,7 @@ public class IndexController {
 
             } else if (Objects.equals(userLogging.getType(), "Pracownik")) {
                 System.out.println(zalogowany);
-                return "widokHomePracownik";
+                return "wyborPracownik";
             }
 
         }
@@ -60,7 +60,7 @@ public class IndexController {
     }
 
     @PostMapping("/wyborWlasciciel")
-    public String choseAccountType(@RequestBody String wybor) {
+    public String choseOwnerAction(@RequestBody String wybor) {
         return switch (wybor) {
             case "upvote=wybor1" -> "stworzZaklad";
             case "upvote=wybor2" -> "dodajPracownika";
@@ -70,6 +70,16 @@ public class IndexController {
         };
     }
 
+    @PostMapping("/wyborPracownik")
+    public String choseWorkerAction(@RequestBody String wybor) {
+        return switch (wybor) {
+            case "upvote=wybor1" -> "dodajPojazd";
+            case "upvote=wybor2" -> "devInProgress";
+            case "upvote=wybor3" -> "devInProgress";
+            case "upvote=wybor4" -> "devInProgress";
+            default -> "";
+        };
+    }
     @PostMapping("/tworzenieZakladu")
     public String tworzenieZakladu(@ModelAttribute Zaklad zaklad, Model model) {
         userRepository.createWorkshop(zaklad);
@@ -90,11 +100,17 @@ public class IndexController {
         return "welcome";
     }
 
-    @GetMapping("/id")
-    public Kierownik getById(@PathVariable("id") int id) {
-
-        return UserRepository.getByIdMan(id);
+    @PostMapping("/dodajPojazd")
+    public String dodajPojazd(@ModelAttribute Vehicle vehicle, Model model) {
+        userRepository.addVehicleToDb(vehicle);
+        model.addAttribute("mark", vehicle.getMark());
+        return "welcomePojazd";
     }
+//    @GetMapping("/id")
+//    public Kierownik getById(@PathVariable("id") int id) {
+//
+//        return UserRepository.getByIdMan(id);
+//    }
     @DeleteMapping("/id")
     public void deleteMan(@PathVariable("id") int id){
 
