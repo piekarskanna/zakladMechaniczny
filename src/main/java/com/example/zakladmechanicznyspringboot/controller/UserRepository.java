@@ -55,7 +55,7 @@ public class UserRepository {
     }
 
     public void addVehicleToDb(Vehicle vehicle) {
-        jdbcTemplate.update("INSERT INTO pojazdy (mark, description, repairCost) values(?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)",
                vehicle.getMark(), vehicle.getDescription(), vehicle.getRepairCost());
         System.out.println("Dodano pojazd do bazy");
     }
