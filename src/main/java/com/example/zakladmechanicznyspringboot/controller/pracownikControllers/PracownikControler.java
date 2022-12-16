@@ -28,10 +28,10 @@ public class PracownikControler {
     User user;
 
     @PostMapping("/widokHomePracownika")
-    public String menuPracownika(@RequestBody String input){
+    public String menuPracownika(@RequestBody String input) {
         System.out.println(input);
 
-        switch(input){
+        switch (input) {
             case "upvote=wybor1":
                 return "wprowadzanieGodzinPracy";
             case "upvote=wybor4":
@@ -39,6 +39,8 @@ public class PracownikControler {
         }
         return "";
     }
+
+
 
     @PostMapping("/wprowadzGodziny")
     public boolean wprowadzanieGodzin(@RequestBody String input){
