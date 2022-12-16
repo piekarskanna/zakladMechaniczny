@@ -11,8 +11,8 @@ import lombok.Setter;
 //@AllArgsConstructor
 public class UserRegistering extends User {
 
-    public UserRegistering(String role, String firstName, String lastName, String email, String password, String gender) {
-        super(role, firstName, lastName, email, password, gender);
+    public UserRegistering(int id, String role, String firstName, String lastName, String email, String password, String gender) {
+        super(id, role, firstName, lastName, email, password, gender);
     }
 
 
