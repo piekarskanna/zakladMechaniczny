@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
 
     @Autowired
-    static
+//    static
     JdbcTemplate jdbcTemplate;
 
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
@@ -105,23 +105,23 @@ public class UserRepository {
         //zwracamy false jesli takiego usera nie ma
         return false;
     }
-    public static Kierownik getByIdMan(int id) {
-        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
-                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
-
-    }
-    public boolean deleteMan(int id){
-
-        User user = UserRepository.getByIdMan(id);
-        if (user != null){
-            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
-            System.out.println("Manager deleted successfully");
-            return true;
-        }else {
-            System.out.println("There is no such Manager");
-            return false;
-        }
-    }
+//    public static Kierownik getByIdMan(int id) {
+//        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
+//                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
+//
+//    }
+//    public boolean deleteMan(int id){
+//
+//        User user = UserRepository.getByIdMan(id);
+//        if (user != null){
+//            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
+//            System.out.println("Manager deleted successfully");
+//            return true;
+//        }else {
+//            System.out.println("There is no such Manager");
+//            return false;
+//        }
+//    }
 
 
 

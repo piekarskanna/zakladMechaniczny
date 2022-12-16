@@ -90,11 +90,11 @@ public class IndexController {
         return "welcome";
     }
 
-    @GetMapping("/id")
-    public Kierownik getById(@PathVariable("id") int id) {
-
-        return UserRepository.getByIdMan(id);
-    }
+//    @GetMapping("/id")
+//    public Kierownik getById(@PathVariable("id") int id) {
+//
+//        return UserRepository.getByIdMan(id);
+//    }
     @DeleteMapping("/id")
     public void deleteMan(@PathVariable("id") int id){
 
