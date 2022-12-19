@@ -40,11 +40,8 @@ public class PracownikControler {
         return "";
     }
 
-
-
     @PostMapping("/wprowadzGodziny")
     public boolean wprowadzanieGodzin(@RequestBody String input){
-
         String czesciInputu[] = input.split("&");
         System.out.println("----");
         String split1[] = czesciInputu[0].split("=");
