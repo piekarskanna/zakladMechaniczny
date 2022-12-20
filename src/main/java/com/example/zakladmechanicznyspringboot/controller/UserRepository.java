@@ -2,10 +2,13 @@ package com.example.zakladmechanicznyspringboot.controller;
 
 import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.regex.Pattern;
 
 
 @Repository
@@ -26,6 +29,8 @@ public class UserRepository {
 //        return true;
 //    }
 
+
+    //pracownikow bedziemy doda
     public void createWorkshop(Zaklad zaklad) {
         jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "(id int NOT NULL AUTO_INCREMENT," +
                 "  role varchar(45) NOT NULL," +
@@ -37,20 +42,15 @@ public class UserRepository {
                 "  PRIMARY KEY (id))");
     }
 
+
     public void addUserToDb(UserRegistering user, Zaklad zaklad) {
-//        //sprawdzamy, czy konto jest tworzone dla kierownika
-//        if (Objects.equals(user.getRole(), "Kierownik")) {
-//            //jeśli tak, to sprawdzamy, czy jest już w bazie
-//
-//            if (returnKierownik(user, zaklad) != null) {
-//                //jeśli zwróciło kierownika to znaczy, że kierownik w tabeli już jest, więc nie dodajemy kolejnego
-//                System.out.println("W tej tabeli jest już kierownik");
-//            }
-//        }
-//        else {
             jdbcTemplate.update("INSERT INTO " + zaklad.getName() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
                     user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
             System.out.println("Dodano do bazy");
+
+            //dodamy tez tymmczasowo do tabeli Pracownik/kierownik/wlasciciel
+        jdbcTemplate.update("INSERT INTO " + user.getRole() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
+                user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
 //        }
     }
 
@@ -80,10 +80,11 @@ public class UserRepository {
 //    }
 
 
+
     public User loginUser(UserLogging userLogging) {
 
         try {
-            return jdbcTemplate.queryForObject("SELECT id, firstName, lastName, email, password  FROM " + userLogging.getType() + " WHERE " +
+            return jdbcTemplate.queryForObject("SELECT id, role, firstName, lastName, email, password, gender FROM " + userLogging.getType() + " WHERE " +
                     "email = ? AND password = ?", BeanPropertyRowMapper.newInstance(User.class), userLogging.getEmail(), userLogging.getPassword());
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -123,8 +124,29 @@ public class UserRepository {
         }
     }
 
+    public boolean addWorkingHours(String date, int hours, int idPracownika){
+        try{
+            jdbcTemplate.update("INSERT INTO pracownicyGodzinyPracy (idPracownika, data, iloscGodzin) VALUES (? ? ?)", idPracownika, date, hours);
+            return true;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return false;
 
+    }
 
+    //jeszcze nie dzila
+    //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
+//    public int returnId(Pracownik pracownik){
+//        try{
+////            return jdbcTemplate.query("SELECT id FROM Pracownik");
+//            return jdbcTemplate.queryForObject("SELECT id FROM Pracownik WHERE email = '" + pracownik.getEmail() + "' AND password = '" + pracownik.getPassword() + "'", new BeanPropertyRowMapper<>(Integer.class));
+//        }catch (DataAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return -1;
+//    }
 
-
+//    }
 }
