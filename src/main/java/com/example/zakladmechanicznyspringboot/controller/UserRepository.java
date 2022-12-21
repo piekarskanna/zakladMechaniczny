@@ -2,17 +2,20 @@ package com.example.zakladmechanicznyspringboot.controller;
 
 import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.regex.Pattern;
 
 
 @Repository
 public class UserRepository {
 
     @Autowired
-//    static
+    static
     JdbcTemplate jdbcTemplate;
 
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
@@ -26,6 +29,8 @@ public class UserRepository {
 //        return true;
 //    }
 
+
+    //pracownikow bedziemy doda
     public void createWorkshop(Zaklad zaklad) {
         jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "(id int NOT NULL AUTO_INCREMENT," +
                 "  role varchar(45) NOT NULL," +
@@ -37,35 +42,25 @@ public class UserRepository {
                 "  PRIMARY KEY (id))");
     }
 
+
     public void addUserToDb(UserRegistering user, Zaklad zaklad) {
-//        //sprawdzamy, czy konto jest tworzone dla kierownika
-//        if (Objects.equals(user.getRole(), "Kierownik")) {
-//            //jeśli tak, to sprawdzamy, czy jest już w bazie
-//
-//            if (returnKierownik(user, zaklad) != null) {
-//                //jeśli zwróciło kierownika to znaczy, że kierownik w tabeli już jest, więc nie dodajemy kolejnego
-//                System.out.println("W tej tabeli jest już kierownik");
-//            }
-//        }
-//        else {
-        jdbcTemplate.update("INSERT INTO " + zaklad.getName() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
+            jdbcTemplate.update("INSERT INTO " + zaklad.getName() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
+                    user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
+            System.out.println("Dodano do bazy");
+
+            //dodamy tez tymmczasowo do tabeli Pracownik/kierownik/wlasciciel
+        jdbcTemplate.update("INSERT INTO " + user.getRole() + " (role, firstName, lastName, email, password, gender) values(?, ?, ?, ?, ?, ?)",
                 user.getRole(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getGender());
-        System.out.println("Dodano do bazy");
 //        }
     }
 
-    public void addVehicleToDb(Vehicle vehicle) {
-        jdbcTemplate.update("INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)",
-               vehicle.getMark(), vehicle.getDescription(), vehicle.getRepairCost());
-        System.out.println("Dodano pojazd do bazy");
-    }
     //wersja funkcji ktora zwraca usera
     //zwracamy Usera
-    public User returnKierownik(UserRegistering userRegistering, Zaklad zaklad) {
-        try {
+    public User returnKierownik(UserRegistering userRegistering, Zaklad zaklad){
+        try{
             return jdbcTemplate.queryForObject("SELECT id, role, firstName, lastName, email, password, gender FROM " + zaklad.getName() + " WHERE " +
                     "role = ?", BeanPropertyRowMapper.newInstance(User.class), userRegistering.getRole());
-        } catch (DataAccessException e) {
+        }catch (DataAccessException e){
             e.printStackTrace();
             System.out.println("nie udalo sie znalesc takiego usera");
             return null;
@@ -85,10 +80,11 @@ public class UserRepository {
 //    }
 
 
+
     public User loginUser(UserLogging userLogging) {
 
         try {
-            return jdbcTemplate.queryForObject("SELECT id, firstName, lastName, email, password  FROM " + userLogging.getType() + " WHERE " +
+            return jdbcTemplate.queryForObject("SELECT id, role, firstName, lastName, email, password, gender FROM " + userLogging.getType() + " WHERE " +
                     "email = ? AND password = ?", BeanPropertyRowMapper.newInstance(User.class), userLogging.getEmail(), userLogging.getPassword());
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -97,35 +93,60 @@ public class UserRepository {
         }
     }
 
-//    public boolean checkIfEmailExist(UserRegistering userRegistering){
-//        try {
-//            jdbcTemplate.execute("SELECT * FROM " + userRegistering.getRole() + " WHERE email = " + "'" +userRegistering.getEmail() + "'");
-//
-//            //zwracamy true gdy user o podanym mailu istenije
-//            return true;
-//        }catch (DataAccessException e){
+    public boolean checkIfEmailExist(UserRegistering userRegistering){
+        try {
+            jdbcTemplate.execute("SELECT * FROM " + userRegistering.getRole() + " WHERE email = " + "'" +userRegistering.getEmail() + "'");
+
+            //zwracamy true gdy user o podanym mailu istenije
+            return true;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
+        //zwracamy false jesli takiego usera nie ma
+        return false;
+    }
+    public static Kierownik getByIdMan(int id) {
+        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
+                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
+
+    }
+    public boolean deleteMan(int id){
+
+        User user = UserRepository.getByIdMan(id);
+        if (user != null){
+            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
+            System.out.println("Manager deleted successfully");
+            return true;
+        }else {
+            System.out.println("There is no such Manager");
+            return false;
+        }
+    }
+
+    public boolean addWorkingHours(String date, int hours, int idPracownika){
+        try{
+            jdbcTemplate.update("INSERT INTO pracownicyGodzinyPracy (idPracownika, data, iloscGodzin) VALUES (? ? ?)", idPracownika, date, hours);
+            return true;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    //jeszcze nie dzila
+    //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
+//    public int returnId(Pracownik pracownik){
+//        try{
+////            return jdbcTemplate.query("SELECT id FROM Pracownik");
+//            return jdbcTemplate.queryForObject("SELECT id FROM Pracownik WHERE email = '" + pracownik.getEmail() + "' AND password = '" + pracownik.getPassword() + "'", new BeanPropertyRowMapper<>(Integer.class));
+//        }catch (DataAccessException e) {
 //            e.printStackTrace();
 //        }
 //
-//        //zwracamy false jesli takiego usera nie ma
-//        return false;
+//        return -1;
 //    }
-//    public static Kierownik getByIdMan(int id) {
-//        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
-//                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
-//
+
 //    }
-//    public boolean deleteMan(int id){
-//
-//        User user = UserRepository.getByIdMan(id);
-//        if (user != null){
-//            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
-//            System.out.println("Manager deleted successfully");
-//            return true;
-//        }else {
-//            System.out.println("There is no such Manager");
-//            return false;
-//        }
-//        }
-    //
 }
