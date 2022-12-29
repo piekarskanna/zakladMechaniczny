@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="GIT-PROJEKT" />
         <module name="szakladMechanicznySpringBoot" />
+        <module name="zakladMechaniczny" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="GIT-PROJEKT" options="-parameters" />
       <module name="szakladMechanicznySpringBoot" options="-parameters" />
+      <module name="zakladMechaniczny" options="-parameters" />
     </option>
   </component>
 </project>

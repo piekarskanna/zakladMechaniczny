@@ -2,13 +2,10 @@ package com.example.zakladmechanicznyspringboot.controller;
 
 import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.regex.Pattern;
 
 
 @Repository
@@ -134,7 +131,23 @@ public class UserRepository {
         return false;
 
     }
+    public static Kierownik getByIdWorker(int id) {
+        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Pracownik WHERE " +
+                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
 
+    }
+    public boolean deleteWorker(int id){
+
+        User user = UserRepository.getByIdWorker(id);
+        if (user != null){
+            jdbcTemplate.update("DELETE FROM Pracownik WHERE id=?");
+            System.out.println("Employee deleted successfully");
+            return true;
+        }else {
+            System.out.println("There is no such employee");
+            return false;
+        }
+    }
     //jeszcze nie dzila
     //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
 //    public int returnId(Pracownik pracownik){
