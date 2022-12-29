@@ -1,10 +1,8 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
-import com.example.zakladmechanicznyspringboot.model.User;
-import com.example.zakladmechanicznyspringboot.model.UserLogging;
-import com.example.zakladmechanicznyspringboot.model.UserRegistering;
-import com.example.zakladmechanicznyspringboot.model.Zaklad;
+import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -81,25 +79,17 @@ public class IndexController {
         model.addAttribute("lastname", userRegistering.getLastName());
         return "welcome";
     }
-/* unnecessary
-    @GetMapping("/idMan")
-    public String getById(@PathVariable("id") int id) {
 
-        userRepository.getByIdMan(id);
-        return "test";
-    }
-*/
+    @GetMapping("/id")
+    public Kierownik getById(@PathVariable("id") int id) {
 
-    @DeleteMapping("/usunKierownika")
-    public String deleteMan(@PathVariable("id") int id){
-        userRepository.deleteMan(id);
-        return "test";
+        return UserRepository.getByIdMan(id);
     }
-    @DeleteMapping("/usunPracownika")
-    public String deleteEmp(@PathVariable("id") int id){
-        userRepository.deleteWorker(id);
-        return "test";
+    @DeleteMapping("/id")
+    public void deleteMan(@PathVariable("id") int id){
+
     }
+
 
 
 }
