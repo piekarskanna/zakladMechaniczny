@@ -1,22 +1,30 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
+import com.example.zakladmechanicznyspringboot.mapper.VehicleRowMapper;
 import com.example.zakladmechanicznyspringboot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.regex.Pattern;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 
 @Repository
 public class UserRepository {
 
     @Autowired
-    static
+//    static
     JdbcTemplate jdbcTemplate;
+
 
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
 
@@ -30,7 +38,11 @@ public class UserRepository {
 //    }
 
 
-    //pracownikow bedziemy doda
+    /**
+     * Funkcja tworzy nową tabelę o nazwie podanej w HTML z polami id, role, [...]. Nazwa jest pobierana za pomocą
+     * publicznej metody getName()
+     * @param zaklad - obiekt klasy "Zaklad" ze składową "name"
+     */
     public void createWorkshop(Zaklad zaklad) {
         jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "(id int NOT NULL AUTO_INCREMENT," +
                 "  role varchar(45) NOT NULL," +
@@ -56,6 +68,7 @@ public class UserRepository {
 
     //wersja funkcji ktora zwraca usera
     //zwracamy Usera
+
     public User returnKierownik(UserRegistering userRegistering, Zaklad zaklad){
         try{
             return jdbcTemplate.queryForObject("SELECT id, role, firstName, lastName, email, password, gender FROM " + zaklad.getName() + " WHERE " +
@@ -106,23 +119,23 @@ public class UserRepository {
         //zwracamy false jesli takiego usera nie ma
         return false;
     }
-    public static Kierownik getByIdMan(int id) {
-        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
-                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
-
-    }
-    public boolean deleteMan(int id){
-
-        User user = UserRepository.getByIdMan(id);
-        if (user != null){
-            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
-            System.out.println("Manager deleted successfully");
-            return true;
-        }else {
-            System.out.println("There is no such Manager");
-            return false;
-        }
-    }
+//    public static Kierownik getByIdMan(int id) {
+//        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
+//                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
+//
+//    }
+//    public boolean deleteMan(int id){
+//
+//        User user = UserRepository.getByIdMan(id);
+//        if (user != null){
+//            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
+//            System.out.println("Manager deleted successfully");
+//            return true;
+//        }else {
+//            System.out.println("There is no such Manager");
+//            return false;
+//        }
+//    }
 
     public boolean addWorkingHours(String date, int hours, int idPracownika){
         try{
@@ -135,6 +148,35 @@ public class UserRepository {
 
     }
 
+    /**
+     * Metoda dodaje pojazd do tabeli o nazwie 'pojazdy'.
+     * Pojazd ma pola marka, opis i koszt, które podawane są przez stronę internetową.
+     * Na koniec info, jakiej marki pojazd dodano
+     * @param vehicle - obiekt klasy 'vehicle', który ma pola marka, opis i koszt. Pola podawane w HTML.
+     */
+    public void addVehicleToDb(Vehicle vehicle) {
+        String sql = "INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)";
+        KeyHolder holder = new GeneratedKeyHolder();
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, vehicle.getMark());
+                ps.setString(2, vehicle.getDescription());
+                ps.setInt(3, vehicle.getRepairCost());
+                return ps;
+            }
+        },holder);
+    }
+
+    /**
+     * Metoda pobiera wszystkie pojazdy z tabeli "pojazdy" i układa je w wierszami za pomocą RowMappera
+     * @return - wszystkie pojazdy z tabeli "pojazdy"
+     */
+    public List<Vehicle> getVehicles() {
+
+        return jdbcTemplate.query("SELECT * FROM pojazdy", new VehicleRowMapper());
+    }
     //jeszcze nie dzila
     //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
 //    public int returnId(Pracownik pracownik){
