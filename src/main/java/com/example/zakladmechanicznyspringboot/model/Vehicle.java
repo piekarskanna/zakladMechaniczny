@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Vehicle {
     private String mark;
     private String description;
-    private int repairCost;
+    private Integer repairCost;
     private String status;
     public Vehicle(Vehicle vehicle) {
         this.mark = vehicle.getMark();

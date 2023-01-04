@@ -8,10 +8,7 @@ import com.example.zakladmechanicznyspringboot.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -52,14 +49,13 @@ public class PracownikControler {
     @PostMapping("/dodajPojazd")
     public String dodajPojazd(@ModelAttribute Vehicle vehicle, Model model) {
         userRepository.addVehicleToDb(vehicle);
-        System.out.println("Hey");
         model.addAttribute("mark", vehicle.getMark());
         return "welcomePojazd";
     }
 
     /**
      * Metoda dodaje nowy widok. Dzięki mav.addObject(...) możemy dostać się do zawartości tabeli "pojazdy", zwracanej
-     * przez userRepository.getVehicles(), z poziomu HTML. Tam iterujemy po zawartości tabeli i wypisujemy wartości.
+     * przez userRepository.getVehicles(), z poziomu HTML. Tam iterujemy po zawartości tabeli i wypisujemy pojazdy.
      * @return - nowy widok
      */
     @GetMapping("/zwrocPojazdy")
@@ -67,6 +63,11 @@ public class PracownikControler {
         ModelAndView mav = new ModelAndView("zwrocPojazdy");
         mav.addObject("vehicles", userRepository.getVehicles());
         return mav;
+    }
+
+    @PostMapping("/zmianaStatusu")
+    public void zmianaStatusu(Vehicle vehicle) {
+        userRepository.updateStatus(vehicle);
     }
 
     @PostMapping("/wprowadzGodziny")

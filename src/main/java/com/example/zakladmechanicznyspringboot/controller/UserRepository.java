@@ -6,15 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 
@@ -151,22 +144,12 @@ public class UserRepository {
     /**
      * Metoda dodaje pojazd do tabeli o nazwie 'pojazdy'.
      * Pojazd ma pola marka, opis i koszt, które podawane są przez stronę internetową.
-     * Na koniec info, jakiej marki pojazd dodano
+     * Na koniec info, jakiej marki pojazd dodano.
      * @param vehicle - obiekt klasy 'vehicle', który ma pola marka, opis i koszt. Pola podawane w HTML.
      */
     public void addVehicleToDb(Vehicle vehicle) {
-        String sql = "INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)";
-        KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, vehicle.getMark());
-                ps.setString(2, vehicle.getDescription());
-                ps.setInt(3, vehicle.getRepairCost());
-                return ps;
-            }
-        },holder);
+        jdbcTemplate.update("INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)",
+                vehicle.getMark(), vehicle.getDescription(), vehicle.getRepairCost());
     }
 
     /**
@@ -174,9 +157,13 @@ public class UserRepository {
      * @return - wszystkie pojazdy z tabeli "pojazdy"
      */
     public List<Vehicle> getVehicles() {
-
         return jdbcTemplate.query("SELECT * FROM pojazdy", new VehicleRowMapper());
     }
+
+    public void updateStatus(Vehicle vehicle) {
+        jdbcTemplate.update("UPDATE pojazdy SET status = ?", vehicle.getStatus());
+    }
+
     //jeszcze nie dzila
     //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
 //    public int returnId(Pracownik pracownik){
