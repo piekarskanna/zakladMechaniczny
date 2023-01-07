@@ -1,22 +1,23 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
-import com.example.zakladmechanicznyspringboot.model.*;
+import com.example.zakladmechanicznyspringboot.model.User;
+import com.example.zakladmechanicznyspringboot.model.UserLogging;
+import com.example.zakladmechanicznyspringboot.model.UserRegistering;
+import com.example.zakladmechanicznyspringboot.model.Zaklad;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.regex.Pattern;
 
 
 @Repository
 public class UserRepository {
 
     @Autowired
-    static
+//    static
     JdbcTemplate jdbcTemplate;
+
 
     //pamietac o zasadzie pojedynczej odpowiedzialnosci
 
@@ -30,7 +31,11 @@ public class UserRepository {
 //    }
 
 
-    //pracownikow bedziemy doda
+    /**
+     * Funkcja tworzy nową tabelę o nazwie podanej w HTML z polami id, role, [...]. Nazwa jest pobierana za pomocą
+     * publicznej metody getName()
+     * @param zaklad - obiekt klasy "Zaklad" ze składową "name"
+     */
     public void createWorkshop(Zaklad zaklad) {
         jdbcTemplate.execute("CREATE TABLE " + zaklad.getName() + "(id int NOT NULL AUTO_INCREMENT," +
                 "  role varchar(45) NOT NULL," +
@@ -56,6 +61,7 @@ public class UserRepository {
 
     //wersja funkcji ktora zwraca usera
     //zwracamy Usera
+
     public User returnKierownik(UserRegistering userRegistering, Zaklad zaklad){
         try{
             return jdbcTemplate.queryForObject("SELECT id, role, firstName, lastName, email, password, gender FROM " + zaklad.getName() + " WHERE " +
@@ -106,23 +112,23 @@ public class UserRepository {
         //zwracamy false jesli takiego usera nie ma
         return false;
     }
-    public static Kierownik getByIdMan(int id) {
-        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
-                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
-
-    }
-    public boolean deleteMan(int id){
-
-        User user = UserRepository.getByIdMan(id);
-        if (user != null){
-            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
-            System.out.println("Manager deleted successfully");
-            return true;
-        }else {
-            System.out.println("There is no such Manager");
-            return false;
-        }
-    }
+//    public static Kierownik getByIdMan(int id) {
+//        return jdbcTemplate.queryForObject("SELECT id, name, lastname FROM Kierownik WHERE " +
+//                "id = ?", BeanPropertyRowMapper.newInstance(Kierownik.class), id);
+//
+//    }
+//    public boolean deleteMan(int id){
+//
+//        User user = UserRepository.getByIdMan(id);
+//        if (user != null){
+//            jdbcTemplate.update("DELETE FROM Kierownik WHERE id=?");
+//            System.out.println("Manager deleted successfully");
+//            return true;
+//        }else {
+//            System.out.println("There is no such Manager");
+//            return false;
+//        }
+//    }
 
     public boolean addWorkingHours(String date, int hours, int idPracownika){
         try{
@@ -134,6 +140,9 @@ public class UserRepository {
         return false;
 
     }
+
+
+
 
     //jeszcze nie dzila
     //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id

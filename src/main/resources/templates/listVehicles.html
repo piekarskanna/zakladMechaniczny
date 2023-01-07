@@ -1,0 +1,52 @@
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>List Vehicles</title>
+<!--To jest do stylu tabeli, jak chcemy sami zrobić css to trzeba to wywalić-->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous" />
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Pojazdy</h3>
+
+    <hr/>
+    <a th:href="@{/addVehicleForm}" class="btn btn-primary">Dodaj pojazd</a>
+    <br/><br/>
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Marka</th>
+            <th>Opis</th>
+            <th>Koszt naprawy</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vehicle: ${vehicles}">
+            <td th:text="${vehicle.id}"></td>
+            <td th:text="${vehicle.mark}"></td>
+            <td th:text="${vehicle.description}"></td>
+            <td th:text="${vehicle.repairCost}"></td>
+            <td th:text="${vehicle.status}"></td>
+            <td>
+                <a th:href="@{'/update/' + ${vehicle.id}}" class="btn btn-info">Edytuj status</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+<!--    <a th:href="@{redirect:/}">Wróć do wyboru akcji</a>-->
+</div>
+
+
+</body>
+
+</html>
