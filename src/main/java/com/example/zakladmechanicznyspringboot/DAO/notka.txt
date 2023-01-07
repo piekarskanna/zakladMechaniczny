@@ -1,0 +1,3 @@
+DAO - Data Access Object
+Interfejs do komunikacji między aplikacją a źródłem danych.
+Dzięki temu nie trzeba wrzucać wszystkiego do userRepository, bo i tak tam tego dużo xD

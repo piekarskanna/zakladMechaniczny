@@ -1,0 +1,40 @@
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Add Vehicle</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
+</head>
+<body>
+
+<div class="container">
+
+  <h3>Dodaj nowy pojazd</h3>
+  <hr/>
+
+  <form th:action="@{/saveVehicle}" th:object="${vehicle}" method="POST">
+
+    <div class="bg-text">
+      <label for="mark">Marka: </label> <br/>
+      <input type="text" name="mark" required/> <br/>
+
+      <label for="description">Opis: </label> <br/>
+      <input type="text" placeholder="Opisz co wymaga naprawy" name="description" required/> <br/>
+
+      <label for="repairCost">Koszt naprawy: </label> <br/>
+      <input type="number" name="repairCost" required/> <br/>
+
+      <br/>
+      <br/>
+      <button type="submit">Potwierdź</button>
+    </div>
+  </form>
+  <hr/>
+  <a th:href="@{/list}">Wróć do listy</a>
+</div>
+
+</body>
+</html>

@@ -1,14 +1,14 @@
 package com.example.zakladmechanicznyspringboot.controller;
 
-import com.example.zakladmechanicznyspringboot.mapper.VehicleRowMapper;
-import com.example.zakladmechanicznyspringboot.model.*;
+import com.example.zakladmechanicznyspringboot.model.User;
+import com.example.zakladmechanicznyspringboot.model.UserLogging;
+import com.example.zakladmechanicznyspringboot.model.UserRegistering;
+import com.example.zakladmechanicznyspringboot.model.Zaklad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 @Repository
@@ -141,28 +141,8 @@ public class UserRepository {
 
     }
 
-    /**
-     * Metoda dodaje pojazd do tabeli o nazwie 'pojazdy'.
-     * Pojazd ma pola marka, opis i koszt, które podawane są przez stronę internetową.
-     * Na koniec info, jakiej marki pojazd dodano.
-     * @param vehicle - obiekt klasy 'vehicle', który ma pola marka, opis i koszt. Pola podawane w HTML.
-     */
-    public void addVehicleToDb(Vehicle vehicle) {
-        jdbcTemplate.update("INSERT INTO pojazdy (mark, description, cost) values(?, ?, ?)",
-                vehicle.getMark(), vehicle.getDescription(), vehicle.getRepairCost());
-    }
 
-    /**
-     * Metoda pobiera wszystkie pojazdy z tabeli "pojazdy" i układa je w wierszami za pomocą RowMappera
-     * @return - wszystkie pojazdy z tabeli "pojazdy"
-     */
-    public List<Vehicle> getVehicles() {
-        return jdbcTemplate.query("SELECT * FROM pojazdy", new VehicleRowMapper());
-    }
 
-    public void updateStatus(Vehicle vehicle) {
-        jdbcTemplate.update("UPDATE pojazdy SET status = ?", vehicle.getStatus());
-    }
 
     //jeszcze nie dzila
     //metoda, kora na podtawie wybranych pol z klasy pracownik zwraca jego id
