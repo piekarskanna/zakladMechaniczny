@@ -1,21 +1,25 @@
 package com.example.zakladmechanicznyspringboot.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class Vehicle {
+    private int id;
     private String mark;
     private String description;
-    private int repairCost;
+    private Integer repairCost;
     private String status;
-    public Vehicle(Vehicle vehicle) {
-        this.mark = vehicle.getMark();
-        this.description = vehicle.getDescription();
-        this.repairCost = vehicle.getRepairCost();
-        this.status = vehicle.getStatus();
+
+    public Vehicle() {
+    }
+
+    public Vehicle(int id, String m, String d, int c, String s) {
+        this.id = id;
+        this.mark = m;
+        this.description = d;
+        this.repairCost = c;
+        this.status = s;
     }
 }

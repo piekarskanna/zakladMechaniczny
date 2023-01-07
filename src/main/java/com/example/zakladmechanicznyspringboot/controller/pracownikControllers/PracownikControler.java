@@ -1,17 +1,13 @@
 package com.example.zakladmechanicznyspringboot.controller.pracownikControllers;
 
 
-import com.example.zakladmechanicznyspringboot.controller.UserRepository;
+import com.example.zakladmechanicznyspringboot.DAO.VehicleDAO;
 import com.example.zakladmechanicznyspringboot.model.Pracownik;
 import com.example.zakladmechanicznyspringboot.model.User;
 import com.example.zakladmechanicznyspringboot.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -21,11 +17,12 @@ public class PracownikControler {
     //trzeba bedzie podmienic aby wszedzie byl pracownik a nie user
 
 
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     Pracownik pracownik;
+
+    @Autowired
+    private VehicleDAO vdao;
 
     @Autowired
     User user;
@@ -37,36 +34,71 @@ public class PracownikControler {
 
         return switch (input) {
             case "upvote=wybor1" -> "wprowadzanieGodzinPracy";
-            case "upvote=wybor2" -> "dodajPojazd";
-            case "upvote=wybor3" -> "zwrocPojazdy";
+
             case "upvote=wybor4" -> "redirect:/";
             default -> "";
         };
     }
 
-    /**Metoda dodająca pojazd po poprawnym wprowadzeniu danych na stronie
-     * @param vehicle - nowy obiekt typu vehicle tworzony interaktywnie przy pomocy HTMLa
-     * @param model - do wypisania podstawowych informacji o pojeździe
-     * @return - zwraca kolejną stronę
+    //********************************** POJAZDY ***************************************
+    /**
+     * Metoda dodaje nowy widok. Dzięki mav.addObject(...) możemy dostać się do zawartości tabeli "pojazdy", zwracanej
+     * przez userRepository.getVehicles(), z poziomu HTML. Tam iterujemy po zawartości tabeli i wypisujemy pojazdy.
+     * @return - nowy widok
      */
-    @PostMapping("/dodajPojazd")
-    public String dodajPojazd(@ModelAttribute Vehicle vehicle, Model model) {
-        userRepository.addVehicleToDb(vehicle);
-        System.out.println("Hey");
-        model.addAttribute("mark", vehicle.getMark());
-        return "welcomePojazd";
+    @RequestMapping("/list")
+    public ModelAndView zwrocPojazdy() {
+        ModelAndView mav = new ModelAndView("listVehicles");
+        mav.addObject("vehicles", vdao.list());
+        return mav;
     }
 
     /**
-     * Metoda dodaje nowy widok. Dzięki mav.addObject(...) możemy dostać się do zawartości tabeli "pojazdy", zwracanej
-     * przez userRepository.getVehicles(), z poziomu HTML. Tam iterujemy po zawartości tabeli i wypisujemy wartości.
-     * @return - nowy widok
+     * Metoda odpowiada za dodanie widoku, z którego poziomu dodajemy nowy pojazd do bazy danych. Wywołuje ją kliknięcie
+     * na opcję "dodaj pojazd".
+     * @return - widok ze stworzonym pojazdem
      */
-    @GetMapping("/zwrocPojazdy")
-    public ModelAndView zwrocPojazdy() {
-        ModelAndView mav = new ModelAndView("zwrocPojazdy");
-        mav.addObject("vehicles", userRepository.getVehicles());
+    @RequestMapping("/addVehicleForm")
+    public ModelAndView dodajPojazd() {
+        ModelAndView mav = new ModelAndView("addVehicleForm");
+        Vehicle newVehicle = new Vehicle();
+        mav.addObject("vehicles",newVehicle);
         return mav;
+    }
+
+    /**
+     * Metoda zapisuje stworzony pojazd do bazy danych
+     * @param vehicle - pojazd stworzony w ramach akcji /addVehicleForm
+     * @return - przekierowanie do listy pojazdów
+     */
+    @PostMapping("/saveVehicle")
+    public String save(@ModelAttribute Vehicle vehicle) {
+        vdao.saveVehicle(vehicle);
+        return "redirect:/list";
+    }
+
+    /**
+     * Metoda dodaje widok umożliwiający edycję obiektu
+     * @param id - id obiektu, który modyfikujemy
+     * @return - widok z edytowanym pojazdem
+     */
+    @RequestMapping("/update/{id}")
+    public ModelAndView showUpdateForm(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("updateForm");
+        Vehicle vehicle = vdao.get(id);
+        mav.addObject("vehicle", vehicle);
+        return mav;
+    }
+
+    /**
+     * Metoda zapisuje zmodyfikowany pojazd do bazy
+     * @param vehicle - edytowany pojazd
+     * @return - przekierowanie do listy pojazdów po naciśnięciu przycisku
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("vehicle") Vehicle vehicle) {
+        vdao.updateStatus(vehicle);
+        return "redirect:/list";
     }
 
     @PostMapping("/wprowadzGodziny")
