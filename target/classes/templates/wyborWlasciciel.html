@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>ZAKŁAD MECHANICZNY</title>
     <meta charset="utf-8"/>
-    <link href="wybor_log_rej_style.css" rel="stylesheet"/>
+    <link th:href="@{css/wyborStyl.css}" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -14,21 +14,21 @@
 <div class="bg-image img5"></div>
 <div class="bg-image img6"></div>
 
-<form action="wyborWlasciciel" method="post">
-    <label for="upvote">Stwórz zakład</label>
-    <input type="submit" name="upvote" value="wybor1"><br>
-
-    <label for="upvote">Dodaj pracownika</label>
-    <input type="submit" name="upvote" value="wybor2"/><br>
-
-    <label for="upvote">Usuń pracownika</label>
-    <input type="submit" name="upvote" value="wybor3"/><br>
-
-    <label for="upvote">Modyfikuj dane</label>
-    <input type="submit" name="upvote" value="wybor4"/><br>
-</form>
 <div class="bg-text">
     <h1>ZAKŁAD MECHANICZNY</h1>
+    <form action="wyborWlasciciel" method="post">
+        <label for="upvote">Stwórz zakład</label>
+        <input type="submit" name="upvote" value="wybor1"><br>
+
+        <label for="upvote">Dodaj pracownika</label>
+        <input type="submit" name="upvote" value="wybor2"/><br>
+
+        <label for="upvote">Usuń pracownika</label>
+        <input type="submit" name="upvote" value="wybor3"/><br>
+
+        <label for="upvote">Modyfikuj dane</label>
+        <input type="submit" name="upvote" value="wybor4"/><br>
+</form>
 
 </div>
 </body>
