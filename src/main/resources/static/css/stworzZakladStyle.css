@@ -5,6 +5,10 @@ html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 button {
   background-color: white;
   opacity: 0.8;
@@ -32,10 +36,6 @@ button:hover {
   cursor: pointer;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .bg-image {
   height: 50%;
   background-position: center;
@@ -44,24 +44,53 @@ button:hover {
 }
 
 .img1 {
-  background-image: url("images/zdjecie2.jpg");
-  width: 400px;
-  height: 400px;
+  background-image: url("zdjecie2.jpg");
 }
 .img2 {
-  background-image: url("images/zdjecie3.jpg");
+  background-image: url("zdjecie3.jpg");
 }
 .img3 {
-  background-image: url("images/zdjecie1.jpg");
+  background-image: url("zdjecie1.jpg");
 }
 .img4 {
-  background-image: url("images/zdjecie4.jpg");
+  background-image: url("zdjecie4.jpg");
 }
 .img5 {
-  background-image: url("images/zdjecie5.jpg");
+  background-image: url("zdjecie5.jpg");
 }
 .img6 {
-  background-image: url("images/zdjecie.jpg");
+  background-image: url("zdjecie.jpg");
+}
+
+/* Position the navbar container inside the image */
+.container {
+  position: absolute;
+  margin-top: 40px;
+  margin-left: 500px;
+  width: auto;
+}
+
+/* The navbar */
+.topnav {
+  overflow: hidden;
+  background-color: white;
+  opacity: 0.8;
+  color: black;
+}
+
+/* Navbar links */
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.topnav a:hover {
+  background-color: gray;
+  color: white;
 }
 
 .bg-text {
@@ -69,7 +98,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 13px;
   border: 10px solid #f1f1f1;
   position: fixed;
   top: 50%;

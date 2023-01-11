@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Logowanie</title>
-    <link th:href="@{css/stronaPowitalnaStyle.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/Style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
         <h1>LOGOWANIE</h1>
 
         <label for="email"><b>Email: </b></label>
-        <input type="email" placeholder="Wpisz Email" name="email" required/>
+        <input type="email" placeholder="Wpisz adres e-mail" name="email" required/>
 
         <br/>
         <br/>
@@ -30,7 +30,7 @@
         <br/>
         <br/>
 
-        <label for="type">Kim jestes?</label> <br/>
+        <label for="type">Zaloguj się jako: </label> <br/>
         <select name="type">
             <option value="Wlasciciel">Właściciel</option>
             <option value="Kierownik">Kierownik</option>
@@ -39,7 +39,7 @@
 
         <br/>
         <br/>
-        <button type="submit">Potwierdz</button>
+        <button type="submit">Zaloguj się</button>
 
     </div>
 
