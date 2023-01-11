@@ -34,7 +34,7 @@ public class PracownikControler {
 
         return switch (input) {
             case "upvote=wybor1" -> "wprowadzanieGodzinPracy";
-
+            case "upvote=wybor2" -> "redirect:/list";
             case "upvote=wybor4" -> "redirect:/";
             default -> "";
         };
